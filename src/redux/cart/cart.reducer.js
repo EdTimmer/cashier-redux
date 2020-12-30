@@ -6,9 +6,11 @@ const INITIAL_STATE = {
 };
 
 const cartReducer = (state = INITIAL_STATE, action) => {
-  const existingCartItem = state.cartItems.find(
-    (cartItem) => cartItem.id === action.payload.id
-  );
+
+  const existingCartItem = action.payload ?
+    state.cartItems.find(
+      (cartItem) => cartItem.id === action.payload.id
+    ) : null;
 
   let updatedCartItems;
 
@@ -63,6 +65,9 @@ const cartReducer = (state = INITIAL_STATE, action) => {
           return memo + item.itemTotal;
         }, 0),
       };
+
+    case CartActionTypes.RESET_CART:
+      return INITIAL_STATE;
 
     default:
       return state;

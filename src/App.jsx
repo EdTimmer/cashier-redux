@@ -27,8 +27,6 @@ const menuContainerStyles = css`
   grid-row: 2 / 3;
   grid-column: 2 / 3;
   padding: 15px;
-  display: grid;
-  place-items: start;
   border: 1px solid black;
   border-radius: 3px;
 `;
@@ -37,8 +35,7 @@ const cartContainerStyles = css`
   grid-row: 2 / 3;
   grid-column: 3 / 4;
   padding: 15px;
-  display: grid;
-  place-items: start;
+  /* display: grid; */
   border: 1px solid black;
   border-radius: 3px;
 `;

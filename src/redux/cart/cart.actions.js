@@ -9,3 +9,7 @@ export const removeItemFromCart = (cartItem) => ({
   type: CartActionTypes.REMOVE_ITEM_FROM_CART,
   payload: cartItem,
 });
+
+export const resetCart = () => ({
+  type: CartActionTypes.RESET_CART,
+});
