@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 
 import CartItem from './CartItem';
 import { formatPrice } from '../utilities/math';
-import Button from './Button'
+import ButtonClear from './ButtonClear';
+import ButtonOrder from './ButtonOrder';
 import { resetCart } from '../redux/cart/cart.actions'
 
 const cartStyles = css`
@@ -18,33 +19,49 @@ const cartStyles = css`
 
 const clearButtonStyles = css`
   grid-row: 1 / 2;
+  padding: 10px;
   display: grid;
   justify-items: center;
 `;
 
 const cartItemsStyles = css`
   grid-row: 2 / 3;
-  display: grid;
-  justify-content: center;
-  align-content: start;
+  height: 100%;
 `;
 
 const emptyCartMessage = css`
+  height: 100%;
   text-transform: uppercase;
+  display: grid;
+  place-items: center;
+`;
+
+const cartFooterStyles = css`
+  grid-row: 3 / 4;
+  text-transform: uppercase;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  align-content: center;
+  justify-content: space-between;
 `;
 
 const totalStyles = css`
-  grid-row: 3 / 4;
+  grid-row: 1 / 2;
   display: grid;
-  justify-items: end;
-  text-transform: uppercase;
+  align-items: center;
+  justify-items: start;
+`;
+
+const orderButtonStyles = css`
+  grid-row: 1 / 2;
 `;
 
 const Cart = ({ cartItems, cartTotal, resetCart }) => (
   <div css={cartStyles}>
 
     <div css={clearButtonStyles}>
-      <Button message={'clear'} handleClick={() => resetCart()} />
+      <ButtonClear buttonDisabled={cartItems.length === 0} handleClick={() => resetCart()} />
     </div>
 
     <div css={cartItemsStyles}>
@@ -59,7 +76,13 @@ const Cart = ({ cartItems, cartTotal, resetCart }) => (
       }
     </div>
 
-    <div css={totalStyles}>Total: ${formatPrice(cartTotal)}</div>
+    <div css={cartFooterStyles}>
+      <div css={totalStyles}>Total: ${formatPrice(cartTotal)}</div>
+
+      <div css={orderButtonStyles}>
+        <ButtonOrder message={'order'} buttonDisabled={cartItems.length === 0} handleClick={() => resetCart()} />
+      </div>
+    </div>
   </div>
 );
 

@@ -4,15 +4,15 @@ import { connect } from 'react-redux';
 
 import { removeItemFromCart } from '../redux/cart/cart.actions';
 import { formatPrice } from '../utilities/math';
-import Button from './Button';
+import ButtonDelete from './ButtonDelete';
 
 const cartItemStyles = css`
   margin: 5px;
   padding: 10px;
-  border: 1px solid black;
-  border-radius: 3px;
+  background-color: blueviolet;
+  color: white;
   display: grid;
-  grid-template-columns: 2fr repeat(4, 1fr);
+  grid-template-columns: 2fr repeat(3, 1fr) 2fr;
   justify-items: center;
   align-items: center;
 
@@ -51,6 +51,8 @@ const cartItemTotalPrice = css`
   }
 `;
 const cartItemDeleteButton = css`
+  justify-self: end;
+  padding-right: 5px;
   @media (max-width: 900px) {
     grid-column: 3 / 4;
     grid-row: 2 / 3;
@@ -73,7 +75,7 @@ const CartItem = ({ cartItem, removeItemFromCart }) => (
       ${formatPrice(cartItem.itemTotal)}
     </div>
     <div css={cartItemDeleteButton}>
-      <Button message={'delete'} handleClick={() => removeItemFromCart(cartItem)} />
+      <ButtonDelete message={'delete'} handleClick={() => removeItemFromCart(cartItem)} />
     </div>
   </div>
 );

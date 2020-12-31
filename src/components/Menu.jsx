@@ -7,7 +7,7 @@ import MenuItem from './MenuItem';
 const menuStyles = css`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  grid-template-rows: repeat(4, 100px);
+  grid-template-rows: repeat(4, min-content);
 `;
 
 const Menu = ({ menuItems }) => (
