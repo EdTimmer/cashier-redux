@@ -6,7 +6,8 @@ import CartItem from './CartItem';
 import { formatPrice } from '../utilities/math';
 import ButtonClear from './ButtonClear';
 import ButtonOrder from './ButtonOrder';
-import { resetCart } from '../redux/cart/cart.actions'
+import { resetCart } from '../redux/cart/cart.actions';
+import { saveOrder } from '../redux/orders/orders.actions';
 
 const cartStyles = css`
   width: 100%;
@@ -57,42 +58,57 @@ const orderButtonStyles = css`
   grid-row: 1 / 2;
 `;
 
-const Cart = ({ cartItems, cartTotal, resetCart }) => (
-  <div css={cartStyles}>
+const Cart = ({ cart, cartItems, cartTotal, resetCart, saveOrder }) => {
 
-    <div css={clearButtonStyles}>
-      <ButtonClear buttonDisabled={cartItems.length === 0} handleClick={() => resetCart()} />
-    </div>
+  const handlePlaceOrder = (order) => {
+    const date = new Date();
+    const orderWithDate = {
+      ...order,
+      date,
+    }
+    saveOrder(orderWithDate);
+    resetCart();
+  };
 
-    <div css={cartItemsStyles}>
-      {
-        cartItems.length > 0 ? (
-          cartItems.map(cartItem => (
-            <CartItem key={cartItem.id} cartItem={cartItem} />
-          )))
-          : (
-            <div css={emptyCartMessage}>Cart is empty</div>
-          )
-      }
-    </div>
+  return (
+    <div css={cartStyles}>
 
-    <div css={cartFooterStyles}>
-      <div css={totalStyles}>Total: ${formatPrice(cartTotal)}</div>
+      <div css={clearButtonStyles}>
+        <ButtonClear buttonDisabled={cartItems.length === 0} handleClick={() => resetCart()} />
+      </div>
 
-      <div css={orderButtonStyles}>
-        <ButtonOrder message={'order'} buttonDisabled={cartItems.length === 0} handleClick={() => resetCart()} />
+      <div css={cartItemsStyles}>
+        {
+          cartItems.length > 0 ? (
+            cartItems.map(cartItem => (
+              <CartItem key={cartItem.id} cartItem={cartItem} />
+            )))
+            : (
+              <div css={emptyCartMessage}>Cart is empty</div>
+            )
+        }
+      </div>
+
+      <div css={cartFooterStyles}>
+        <div css={totalStyles}>Total: ${formatPrice(cartTotal)}</div>
+
+        <div css={orderButtonStyles}>
+          <ButtonOrder message={'order'} buttonDisabled={cartItems.length === 0} handleClick={() => handlePlaceOrder(cart)} />
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+}
 
 const mapStateToProps = ({ cart }) => ({
+  cart: cart,
   cartItems: cart.cartItems,
   cartTotal: cart.cartTotal,
 });
 
 const mapDispatchToProps = dispatch => ({
-  resetCart: () => dispatch(resetCart())
+  resetCart: () => dispatch(resetCart()),
+  saveOrder: (cart) => dispatch(saveOrder(cart))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);
